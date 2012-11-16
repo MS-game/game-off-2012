@@ -27,7 +27,7 @@ This will automatically clean the build, compile the source and create a jar wit
 Downloads
 -----------
 
-* [Latest uild](http://jenkins.marlinc.nl/job/MS-Game/7/jdk=OpenJDK%207/artifact/build/ms-game.jar)
+* [Latest build](http://jenkins.marlinc.nl/job/MS-Game/7/jdk=OpenJDK%207/artifact/build/ms-game.jar)
 
 GitHub Game-Off 2012
 -----------
