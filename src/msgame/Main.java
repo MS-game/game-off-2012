@@ -23,6 +23,7 @@ public class Main implements Runnable {
     public GameCanvas gameCanvas;
     public static JFrame frame;
 
+    public InputHandler inputHandler;
     public World world;
 
     public Main(boolean frame) {
@@ -62,6 +63,7 @@ public class Main implements Runnable {
     }
 
     public void initScene() {
+        inputHandler = new InputHandler(this);
         world = new World(this);
         world.loadLevel(0);
     }
@@ -117,6 +119,8 @@ public class Main implements Runnable {
     }
 
     public void tick() {
+        inputHandler.tick();
+        world.tick();
     }
 
     public void clean() {
