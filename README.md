@@ -1,3 +1,37 @@
+MS-Game
+=======
+
+MS-Game is a game.
+
+Jenkins build status: [![Build Status](http://jenkins.marlinc.nl/job/MS-Game/badge/icon)](http://jenkins.marlinc.nl/job/MS-Game/)
+
+You can find our Jenkins Build-Bot job over [here](http://jenkins.marlinc.nl/job/MS-Game/).
+We don't have a Travis-CI test-set yet but this may come in the future.
+
+Compiling from the command line
+-----------
+
+You can compile MS-Game from the command line using Ant.
+At the moment we have one build targets:
+
+* jar
+
+Building a target is done by simply executing:
+
+```ant jar```
+
+This will automatically clean the build, compile the source and create a jar with all the necessary libraries.
+
+
+
+Downloads
+-----------
+
+* [Latest uild](http://jenkins.marlinc.nl/job/MS-Game/7/jdk=OpenJDK%207/artifact/build/ms-game.jar)
+
+GitHub Game-Off 2012
+-----------
+
 Here at GitHub, we're no strangers to hosting or sponsoring hackathons. With the growing number of games and game development resources on GitHub, we thought it was about time to throw our very own game jam!
 
 ## The Challenge
