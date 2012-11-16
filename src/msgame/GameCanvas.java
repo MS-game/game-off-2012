@@ -9,9 +9,8 @@ public class GameCanvas extends Canvas {
     private static final long serialVersionUID = 8077355341462679865L;
     private Graphics g;
     private BufferStrategy bs;
-    
-    public Graphics getGraphics ()
-    {
+
+    public Graphics getGraphics() {
         bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -23,14 +22,14 @@ public class GameCanvas extends Canvas {
             bs = null;
             return null;
         }
-        
+
         g.setColor(new Color(0xFFFFFF));
         g.fillRect(0, 0, getWidth(), getHeight());
-        
+
         return g;
     }
-    public void endRender ()
-    {
+
+    public void endRender() {
         if (g != null) {
             g.dispose();
             g = null;
