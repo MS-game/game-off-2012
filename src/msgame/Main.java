@@ -5,9 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.JApplet;
 import javax.swing.JFrame;
 
-public class Main {
+public class Main implements Runnable {
     /** Ticks per second */
     public static final int TPS = 60;
     /** Frames per second */
@@ -17,33 +18,35 @@ public class Main {
     public static final int HEIGHT = 180;
     public static final int SCALE = 3;
 
-    public GameCanvas gameCanvas;
-    public JFrame frame;
+    public static boolean running;
     
+    public GameCanvas gameCanvas;
+    public JApplet frame;
+
     public World world;
 
     public Main() {
         initDisplay();
+    }
+
+    public void start() {
+        running = true;
+        new Thread(this).start();
+    }
+    public void init ()
+    {
         initScene();
         startLoop();
-        clean();
+    }
+    public void stop() {
+        running = false;
     }
 
     public void initDisplay() {
         gameCanvas = new GameCanvas();
         gameCanvas.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         gameCanvas.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        gameCanvas
-                .setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-
-        frame = new JFrame(TITLE);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.add(gameCanvas, BorderLayout.CENTER);
-        frame.pack();
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        gameCanvas.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
     }
 
     public void initScene() {
@@ -56,8 +59,8 @@ public class Main {
         double unprocessed = 0;
         int fps = 0;
         long fpsCounter = lastTime;
-        
-        for (;;) {
+
+        while (running) {
             long now = System.currentTimeMillis();
             long delta = (now - lastTime);
             lastTime = now;
@@ -76,7 +79,6 @@ public class Main {
             }
             if ((now - fpsCounter) > 1000) {
                 fpsCounter += 1000;
-                frame.setTitle("FPS: " + fps);
                 fps = 0;
             }
             try {
@@ -91,7 +93,7 @@ public class Main {
         Graphics g = gameCanvas.getGraphics();
         if (g == null)
             return;
-        
+
         g.setColor(new Color((int) (Math.random() * 0xFFFFFF)));
         g.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
     }
@@ -104,5 +106,8 @@ public class Main {
 
     public static void main(String[] args) {
         new Main();
+    }
+    public void run() {
+        init();
     }
 }
