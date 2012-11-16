@@ -51,7 +51,6 @@ public class Entity {
         }
         aabb.move(0, yadd);
         onground = (yo != yadd && yo > 0) ? true : false;
-        System.out.println(onground);
         x = aabb.minX;
         y = aabb.minY;
         updateAABB();
