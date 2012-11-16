@@ -1,6 +1,5 @@
 package msgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,23 +14,29 @@ public class World {
     public List<Entity> entities;
     public EntityPlayer thePlayer;
     public InputHandler inputHandler;
-    
+    public SpriteHolder spriteholder;
+
     public World(Main main) {
         this.main = main;
         tiles = new Tile[24][18];
         entities = new ArrayList<Entity>();
         inputHandler = main.inputHandler;
         thePlayer = new EntityPlayer(this);
+        spriteholder = new SpriteHolder("res/tiles.png", 10);
         spawn(thePlayer);
     }
-    public void spawn (Entity entity) {
+
+    public void spawn(Entity entity) {
         entities.add(entity);
     }
+
     public void render(Graphics g) {
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[x].length; y++) {
-                g.setColor(new Color(tiles[x][y].color));
-                g.fillRect(x * 10, y * 10, 10, 10);
+                if (tiles[x][y].transparent) continue;
+                g.drawImage(spriteholder.getSprite(tiles[x][y].textureId),
+                        x * 10, y * 10, (x + 1) * 10, (y + 1) * 10, 0, 0, 10,
+                        10, null);
             }
         }
         for (Entity entity : entities) {
@@ -75,20 +80,24 @@ public class World {
             return;
         }
     }
-    public boolean isTileAt (int x, int y) {
-        if (x < 0 || y < 0 || x >= tiles.length || y >= tiles[0].length) return true;
+
+    public boolean isTileAt(int x, int y) {
+        if (x < 0 || y < 0 || x >= tiles.length || y >= tiles[0].length)
+            return true;
         return !tiles[x][y].passable;
     }
+
     public List<AABB> getBoundingBoxes(AABB aabb) {
         List<AABB> ret = new ArrayList<AABB>();
-        
+
         int sx = (int) Math.floor(aabb.minX);
-        sx = sx - (sx%10);
+        sx = sx - (sx % 10);
         int sy = (int) Math.floor(aabb.minY);
-        sy = sy - (sy%10);
-        for (int x = sx; x <= aabb.maxX+10; x += 10) {
-            for (int y = sy; y <= aabb.maxY+10; y += 10) {
-                if (isTileAt(x / 10, y / 10)) ret.add(new AABB(x, y, x+10, y+10));
+        sy = sy - (sy % 10);
+        for (int x = sx; x <= aabb.maxX + 10; x += 10) {
+            for (int y = sy; y <= aabb.maxY + 10; y += 10) {
+                if (isTileAt(x / 10, y / 10))
+                    ret.add(new AABB(x, y, x + 10, y + 10));
             }
         }
         return ret;

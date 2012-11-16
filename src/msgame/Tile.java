@@ -4,7 +4,7 @@ public class Tile {
     public int id = 0;
     public boolean transparent = false;
     public boolean passable = false;
-    public int color = 0xFFFF00;
+    public int textureId = 0;
 
     public static final Tile air;
     public static final Tile stone;
@@ -18,8 +18,8 @@ public class Tile {
         return this;
     }
 
-    public Tile setColor(int color) {
-        this.color = color;
+    public Tile setTextureId(int textureId) {
+        this.textureId = textureId;
         return this;
     }
 
@@ -31,6 +31,6 @@ public class Tile {
     static {
         air = new Tile(0).setTransparent(true).setPassable(true);
         ;
-        stone = new Tile(1).setColor(0x888888);
+        stone = new Tile(1).setTextureId(0);
     }
 }
