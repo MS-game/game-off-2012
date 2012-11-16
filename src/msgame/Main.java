@@ -18,6 +18,9 @@ public class Main {
     public static final int SCALE = 3;
 
     public GameCanvas gameCanvas;
+    public JFrame frame;
+    
+    public World world;
 
     public Main() {
         initDisplay();
@@ -33,7 +36,7 @@ public class Main {
         gameCanvas
                 .setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-        JFrame frame = new JFrame(TITLE);
+        frame = new JFrame(TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(gameCanvas, BorderLayout.CENTER);
@@ -44,12 +47,16 @@ public class Main {
     }
 
     public void initScene() {
+        world = new World(this);
+        world.loadLevel(0);
     }
 
     public void startLoop() {
         long lastTime = System.currentTimeMillis();
         double unprocessed = 0;
-
+        int fps = 0;
+        long fpsCounter = lastTime;
+        
         for (;;) {
             long now = System.currentTimeMillis();
             long delta = (now - lastTime);
@@ -65,6 +72,12 @@ public class Main {
             if (ticked) {
                 render();
                 gameCanvas.endRender();
+                fps++;
+            }
+            if ((now - fpsCounter) > 1000) {
+                fpsCounter += 1000;
+                frame.setTitle("FPS: " + fps);
+                fps = 0;
             }
             try {
                 Thread.sleep(10);
@@ -78,7 +91,7 @@ public class Main {
         Graphics g = gameCanvas.getGraphics();
         if (g == null)
             return;
-
+        
         g.setColor(new Color((int) (Math.random() * 0xFFFFFF)));
         g.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
     }
