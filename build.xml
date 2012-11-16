@@ -24,7 +24,9 @@
 
 	<target name="jar" depends="compile, global-manifest">
 		<jar manifest="build/META-INF/MANIFEST.MF" destfile="build/ms-game.jar" filesetmanifest="mergewithoutmain" basedir="build/classes">
-
+            <fileset dir="src">
+               <include name="res/**" />
+            </fileset>
 		</jar>
 	</target>
 
