@@ -111,11 +111,11 @@ public class Main implements Runnable {
             return;
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(3, 3);
+
+        world.render(g);
         
         g.setColor(new Color(0x000000));
         g.drawString("FPS: " + fpsNow, 10, 10);
-
-        world.render(g);
     }
 
     public void tick() {
