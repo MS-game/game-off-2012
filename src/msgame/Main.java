@@ -1,12 +1,11 @@
 package msgame;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JApplet;
-import javax.swing.JFrame;
 
 public class Main implements Runnable {
     /** Ticks per second */
@@ -19,7 +18,7 @@ public class Main implements Runnable {
     public static final int SCALE = 3;
 
     public static boolean running;
-    
+    public int fpsNow;
     public GameCanvas gameCanvas;
     public JApplet frame;
 
@@ -33,11 +32,12 @@ public class Main implements Runnable {
         running = true;
         new Thread(this).start();
     }
-    public void init ()
-    {
+
+    public void init() {
         initScene();
         startLoop();
     }
+
     public void stop() {
         running = false;
     }
@@ -79,6 +79,7 @@ public class Main implements Runnable {
             }
             if ((now - fpsCounter) > 1000) {
                 fpsCounter += 1000;
+                fpsNow = fps;
                 fps = 0;
             }
             try {
@@ -91,11 +92,16 @@ public class Main implements Runnable {
 
     public void render() {
         Graphics g = gameCanvas.getGraphics();
+        Graphics2D g2 = (Graphics2D) g;
+        g2.scale(3, 3);
+        
         if (g == null)
             return;
 
-        g.setColor(new Color((int) (Math.random() * 0xFFFFFF)));
-        g.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
+        g.setColor(new Color(0x000000));
+        g.drawString("FPS: " + fpsNow, 10, 10);
+        
+        world.render(g);
     }
 
     public void tick() {
@@ -107,6 +113,7 @@ public class Main implements Runnable {
     public static void main(String[] args) {
         new Main();
     }
+
     public void run() {
         init();
     }
