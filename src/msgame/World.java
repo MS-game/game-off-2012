@@ -48,7 +48,7 @@ public class World {
     public void loadLevel(int l) {
         try {
             BufferedImage image = ImageIO.read(World.class
-                    .getResourceAsStream("res/level" + l + ".png"));
+                    .getResourceAsStream("/res/level" + l + ".png"));
             // BufferedImage image = ImageIO.read(new File("/res/level" + l +
             // ".png"));
             int[] pixels = image.getRGB(0, 0, image.getWidth(),
@@ -74,5 +74,23 @@ public class World {
             e.printStackTrace();
             return;
         }
+    }
+    public boolean isTileAt (int x, int y) {
+        if (x < 0 || y < 0 || x >= tiles.length || y >= tiles[0].length) return true;
+        return !tiles[x][y].passable;
+    }
+    public List<AABB> getBoundingBoxes(AABB aabb) {
+        List<AABB> ret = new ArrayList<AABB>();
+        
+        int sx = (int) Math.floor(aabb.minX);
+        sx = sx - (sx%10);
+        int sy = (int) Math.floor(aabb.minY);
+        sy = sy - (sy%10);
+        for (int x = sx; x <= aabb.maxX+10; x += 10) {
+            for (int y = sy; y <= aabb.maxY+10; y += 10) {
+                if (isTileAt(x / 10, y / 10)) ret.add(new AABB(x, y, x+10, y+10));
+            }
+        }
+        return ret;
     }
 }
