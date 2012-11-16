@@ -1,11 +1,12 @@
 package msgame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.JApplet;
+import javax.swing.JFrame;
 
 public class Main implements Runnable {
     /** Ticks per second */
@@ -20,12 +21,12 @@ public class Main implements Runnable {
     public static boolean running;
     public int fpsNow;
     public GameCanvas gameCanvas;
-    public JApplet frame;
+    public static JFrame frame;
 
     public World world;
 
-    public Main() {
-        initDisplay();
+    public Main(boolean frame) {
+        initDisplay(frame);
     }
 
     public void start() {
@@ -42,11 +43,22 @@ public class Main implements Runnable {
         running = false;
     }
 
-    public void initDisplay() {
+    public void initDisplay(boolean frame) {
         gameCanvas = new GameCanvas();
         gameCanvas.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         gameCanvas.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         gameCanvas.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+
+        if (frame) {
+            Main.frame = new JFrame(Main.TITLE);
+            Main.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            Main.frame.setLayout(new BorderLayout());
+            Main.frame.add(gameCanvas, BorderLayout.CENTER);
+            Main.frame.pack();
+            Main.frame.setResizable(false);
+            Main.frame.setLocationRelativeTo(null);
+            Main.frame.setVisible(true);
+        }
     }
 
     public void initScene() {
@@ -92,15 +104,15 @@ public class Main implements Runnable {
 
     public void render() {
         Graphics g = gameCanvas.getGraphics();
+
+        if (g == null)
+            return;
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(3, 3);
         
-        if (g == null)
-            return;
-
         g.setColor(new Color(0x000000));
         g.drawString("FPS: " + fpsNow, 10, 10);
-        
+
         world.render(g);
     }
 
@@ -111,7 +123,8 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
-        new Main();
+        Main main = new Main(true);
+        main.start();
     }
 
     public void run() {

@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 
 public class GameApplet extends Applet {
     private static final long serialVersionUID = -6303980103523972798L;
-    private Main main = new Main();
+    private Main main = new Main(false);
 
     public void init() {
         setSize(720, 540);
