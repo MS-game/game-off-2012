@@ -50,7 +50,6 @@ public class EntityPlayer extends Entity {
     }
 
     public void render(Graphics g) {
-        //System.out.println(10 + (int) Math.floor((walkingAnimation / 20)));
         g.drawImage(world.spriteholder.getSprite(
                 10 + (int) Math.floor((walkingAnimation / 20))),
                 (int) x, (int) y,
