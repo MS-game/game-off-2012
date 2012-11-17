@@ -22,7 +22,7 @@ public class World {
         entities = new ArrayList<Entity>();
         inputHandler = main.inputHandler;
         thePlayer = new EntityPlayer(this);
-        spriteholder = new SpriteHolder("res/tiles.png", 10);
+        spriteholder = new SpriteHolder("res/sprites.png", 10);
         spawn(thePlayer);
     }
 
