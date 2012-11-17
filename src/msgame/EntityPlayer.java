@@ -5,21 +5,23 @@ import java.awt.event.KeyEvent;
 
 public class EntityPlayer extends Entity {
     public InputHandler inputHandler;
-    public int walkingAnimation;
-    public boolean left;
+    public int animation;
+    public boolean left, walking;
 
     public EntityPlayer(World world, double x, double y) {
         super(world);
         inputHandler = world.inputHandler;
         this.x = x;
         this.y = y;
-        width = height = 10;
-        walkingAnimation = 0;
+        height = 10;
+        width = 7;
+        animation = 0;
+        left = walking = false;
         updateAABB();
     }
 
     public void tick() {
-        if (walkingAnimation++ >= 39) walkingAnimation = 0;
+        if (animation++ >= 39) animation = 0;
         
         boolean jump = inputHandler.isKeyDown(KeyEvent.VK_UP)
                 || inputHandler.isKeyDown(KeyEvent.VK_W)
@@ -40,8 +42,7 @@ public class EntityPlayer extends Entity {
             xspeed += speed;
         if (left)
             xspeed -= speed;
-        if (xspeed == 0)
-            walkingAnimation = 0;
+        walking = (xspeed != 0);
         if (xspeed > 0)
             this.left = true;
         else if (xspeed < 0)
@@ -50,11 +51,13 @@ public class EntityPlayer extends Entity {
     }
 
     public void render(Graphics g) {
+        int sid = 10 + (int) Math.floor((animation / 20));
+        if (walking) sid++;
         g.drawImage(world.spriteholder.getSprite(
-                10 + (int) Math.floor((walkingAnimation / 20))),
+                sid),
                 (int) x, (int) y,
-                (int) (x + 10), (int) (y + 10), 
-                (left) ? 0 : 10, 0,
-                (left) ? 10 : 0, 10, null);
+                (int) (x + width), (int) (y + 10), 
+                (left) ? 0 : (int)width, 0,
+                (left) ? (int)width : 0, 10, null);
     }
 }
