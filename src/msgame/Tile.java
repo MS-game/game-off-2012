@@ -7,6 +7,7 @@ public class Tile {
 
     public static final Tile air;
     public static final Tile stone;
+    public static final Tile antiGravity;
 
     public Tile(int id) {
         this.id = id;
@@ -24,6 +25,7 @@ public class Tile {
     static {
         air = new Tile(0).setTextureId(0).setPassable(true);
         stone = new Tile(1).setTextureId(1);
+        antiGravity = new TileAntiGravity(2).setTextureId(5);
     }
 
     public void collidingEntity(World world, int x, int y, Entity entity) {

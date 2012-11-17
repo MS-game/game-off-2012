@@ -34,10 +34,13 @@ public class InputHandler implements KeyListener {
     public boolean isKeyDown (int key) {
         return keys[key].down;
     }
+    public boolean isKeyPressed (int key) {
+        return keys[key].pressed;
+    }
     private void toggle(KeyEvent ke, boolean pressed) {
         int kc = ke.getKeyCode(); 
         if (kc > keys.length) return;
-        if (pressed == true) { 
+        if (pressed) {
             keys[kc].pressed = true;
         }
         keys[kc].down = pressed;

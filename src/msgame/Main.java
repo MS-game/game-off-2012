@@ -126,8 +126,8 @@ public class Main implements Runnable {
     }
 
     public void tick() {
-        inputHandler.tick();
         world.tick();
+        inputHandler.tick();
     }
 
     public void clean() {

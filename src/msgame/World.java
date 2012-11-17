@@ -1,6 +1,7 @@
 package msgame;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class World {
     }
 
     public void tick() {
+        if (inputHandler.isKeyPressed(KeyEvent.VK_RIGHT)) nextLevel();
+        
         for (Entity entity : entities) {
             entity.tick();
         }
@@ -71,6 +74,8 @@ public class World {
                 if (pixel == 0xFFFFFF) {
                 } else if (pixel == 0xFF0000) {
                     tiles[x][y] = Tile.stone;
+                } else if (pixel == 0xFFFF00) {
+                    tiles[x][y] = Tile.antiGravity;
                 } else if (pixel == 0x00FF00) {
                     spawn(new EntityBox(this, x*10, y*10));
                 } else if (pixel == 0xFF00FF) {
