@@ -20,7 +20,6 @@ public class World {
     public World(Main main) {
         this.main = main;
         tiles = new Tile[24][18];
-        entities = new ArrayList<Entity>();
         inputHandler = main.inputHandler;
         spriteholder = new SpriteHolder("res/sprites.png", 10);        
         currentLevel = 0;
@@ -57,7 +56,7 @@ public class World {
         spawn(thePlayer);
     }
     public void loadLevel(int l) {
-        entities.clear();
+        entities = new ArrayList<Entity>();
         try {
             BufferedImage image = ImageIO.read(World.class
                     .getResourceAsStream("/res/level" + l + ".png"));
