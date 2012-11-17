@@ -44,9 +44,9 @@ public class EntityPlayer extends Entity {
             xspeed -= speed;
         walking = (xspeed != 0);
         if (xspeed > 0)
-            this.left = true;
-        else if (xspeed < 0)
             this.left = false;
+        else if (xspeed < 0)
+            this.left = true;
         move();
     }
 
@@ -57,7 +57,7 @@ public class EntityPlayer extends Entity {
                 sid),
                 (int) x, (int) y,
                 (int) (x + width), (int) (y + 10), 
-                (left) ? 0 : (int)width, 0,
-                (left) ? (int)width : 0, 10, null);
+                (left) ? (int)width : 0, 0,
+                (left) ? 0 : (int)width, 10, null);
     }
 }
