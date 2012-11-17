@@ -21,7 +21,7 @@ public class SpriteHolder {
 
         for (int i = 0; i < sprites.length; i++) {
             int x = i % width;
-            int y = i - x * width;
+            int y = (int) Math.floor(i / width);
             sprites[i] = getAcceleratedImage(spriteSize, spriteSize);
             sprites[i].getGraphics().drawImage(spritesheet, 0, 0, spriteSize,
                     spriteSize, x * spriteSize, y * spriteSize,

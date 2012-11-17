@@ -2,7 +2,6 @@ package msgame;
 
 public class Tile {
     public int id = 0;
-    public boolean transparent = false;
     public boolean passable = false;
     public int textureId = 0;
 
@@ -11,11 +10,6 @@ public class Tile {
 
     public Tile(int id) {
         this.id = id;
-    }
-
-    public Tile setTransparent(boolean flag) {
-        transparent = flag;
-        return this;
     }
 
     public Tile setTextureId(int textureId) {
@@ -29,8 +23,7 @@ public class Tile {
     }
 
     static {
-        air = new Tile(0).setTransparent(true).setPassable(true);
-        ;
-        stone = new Tile(1).setTextureId(0);
+        air = new Tile(0).setTextureId(0).setPassable(true);
+        stone = new Tile(1).setTextureId(1);
     }
 }

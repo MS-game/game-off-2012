@@ -33,7 +33,6 @@ public class World {
     public void render(Graphics g) {
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[x].length; y++) {
-                if (tiles[x][y].transparent) continue;
                 g.drawImage(spriteholder.getSprite(tiles[x][y].textureId),
                         x * 10, y * 10, (x + 1) * 10, (y + 1) * 10, 0, 0, 10,
                         10, null);
@@ -86,7 +85,6 @@ public class World {
             return true;
         return !tiles[x][y].passable;
     }
-
     public List<AABB> getBoundingBoxes(AABB aabb) {
         List<AABB> ret = new ArrayList<AABB>();
 
