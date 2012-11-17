@@ -15,15 +15,16 @@ public class World {
     public EntityPlayer thePlayer;
     public InputHandler inputHandler;
     public SpriteHolder spriteholder;
+    public int currentLevel;
 
     public World(Main main) {
         this.main = main;
         tiles = new Tile[24][18];
         entities = new ArrayList<Entity>();
         inputHandler = main.inputHandler;
-        thePlayer = new EntityPlayer(this);
-        spriteholder = new SpriteHolder("res/sprites.png", 10);
-        spawn(thePlayer);
+        spriteholder = new SpriteHolder("res/sprites.png", 10);        
+        currentLevel = 0;
+        loadLevel(currentLevel);
     }
 
     public void spawn(Entity entity) {
@@ -48,13 +49,18 @@ public class World {
             entity.tick();
         }
     }
-
+    public void nextLevel () {
+        loadLevel(++currentLevel);
+    }
+    public void spawnThePlayer (double x, double y) {
+        thePlayer = new EntityPlayer(this, x, y);
+        spawn(thePlayer);
+    }
     public void loadLevel(int l) {
+        entities.clear();
         try {
             BufferedImage image = ImageIO.read(World.class
                     .getResourceAsStream("/res/level" + l + ".png"));
-            // BufferedImage image = ImageIO.read(new File("/res/level" + l +
-            // ".png"));
             int[] pixels = image.getRGB(0, 0, image.getWidth(),
                     image.getHeight(), null, 0, image.getWidth());
 
@@ -62,10 +68,14 @@ public class World {
                 int pixel = pixels[i] & 0xFFFFFF;
                 int y = (int) Math.floor(i / image.getWidth());
                 int x = i - (y * image.getWidth());
+                tiles[x][y] = Tile.air;
                 if (pixel == 0xFFFFFF) {
-                    tiles[x][y] = Tile.air;
                 } else if (pixel == 0xFF0000) {
                     tiles[x][y] = Tile.stone;
+                } else if (pixel == 0xFF00FF) {
+                    spawn(new EntityDoor(this, x*10, y*10));
+                } else if (pixel == 0x00FFFF) {
+                    spawnThePlayer(x * 10, y * 10);
                 } else {
                     throw new Exception("Unkown pixel " + pixel + " at level "
                             + l + ", " + x + "," + y);

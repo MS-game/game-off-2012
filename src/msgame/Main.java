@@ -65,7 +65,6 @@ public class Main implements Runnable {
     public void initScene() {
         inputHandler = new InputHandler(this);
         world = new World(this);
-        world.loadLevel(0);
     }
 
     public void startLoop() {

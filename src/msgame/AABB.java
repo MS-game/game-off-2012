@@ -32,9 +32,9 @@ public class AABB {
     }
 
     public boolean intersects(AABB bb) {
-        if (this.maxX < minX || this.maxY < minY)
+        if (bb.maxX < minX || bb.maxY < minY)
             return false;
-        if (this.minX > maxX || this.minY > maxY)
+        if (bb.minX > maxX || bb.minY > maxY)
             return false;
         return true;
     }

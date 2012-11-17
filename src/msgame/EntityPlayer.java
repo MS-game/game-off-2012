@@ -8,11 +8,11 @@ public class EntityPlayer extends Entity {
     public int walkingAnimation;
     public boolean left;
 
-    public EntityPlayer(World world) {
+    public EntityPlayer(World world, double x, double y) {
         super(world);
         inputHandler = world.inputHandler;
-        x = 20;
-        y = 20;
+        this.x = x;
+        this.y = y;
         width = height = 10;
         walkingAnimation = 0;
         updateAABB();
