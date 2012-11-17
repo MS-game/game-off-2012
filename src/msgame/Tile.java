@@ -11,7 +11,6 @@ public class Tile {
     public Tile(int id) {
         this.id = id;
     }
-
     public Tile setTextureId(int textureId) {
         this.textureId = textureId;
         return this;
@@ -25,5 +24,8 @@ public class Tile {
     static {
         air = new Tile(0).setTextureId(0).setPassable(true);
         stone = new Tile(1).setTextureId(1);
+    }
+
+    public void collidingEntity(World world, int x, int y, Entity entity) {
     }
 }

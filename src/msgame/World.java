@@ -82,9 +82,10 @@ public class World {
 
     public boolean isTileAt(int x, int y) {
         if (x < 0 || y < 0 || x >= tiles.length || y >= tiles[0].length)
-            return true;
+            return false;
         return !tiles[x][y].passable;
     }
+
     public List<AABB> getBoundingBoxes(AABB aabb) {
         List<AABB> ret = new ArrayList<AABB>();
 
@@ -96,6 +97,33 @@ public class World {
             for (int y = sy; y <= aabb.maxY + 10; y += 10) {
                 if (isTileAt(x / 10, y / 10))
                     ret.add(new AABB(x, y, x + 10, y + 10));
+            }
+        }
+        return ret;
+    }
+
+    public Tile getTileAt(int x, int y) {
+        if (x < 0 || y < 0 || x >= tiles.length || y >= tiles[0].length)
+            return null;
+        return tiles[x][y];
+    }
+
+    public List<TileInfo> getCollidingTiles(AABB aabb) {
+        List<TileInfo> ret = new ArrayList<TileInfo>();
+
+        int sx = (int) Math.floor(aabb.minX);
+        sx = sx - (sx % 10);
+        int sy = (int) Math.floor(aabb.minY);
+        sy = sy - (sy % 10);
+        for (int x = sx; x <= aabb.maxX + 10; x += 10) {
+            for (int y = sy; y <= aabb.maxY + 10; y += 10) {
+                if (isTileAt(x / 10, y / 10)) {
+                    TileInfo tileinfo = new TileInfo(getTileAt(x / 10, y / 10));
+                    tileinfo.aabb = new AABB(x, y, x + 10, y + 10);
+                    tileinfo.x = x / 10;
+                    tileinfo.y = y / 10;
+                    ret.add(tileinfo);
+                }
             }
         }
         return ret;

@@ -38,21 +38,27 @@ public class Entity {
     }
 
     public void move(double xadd, double yadd) {
-        List<AABB> boxes = world.getBoundingBoxes(aabb.expand(xadd, yadd));
+        List<TileInfo> tiles = world.getCollidingTiles(aabb.expand(xadd, yadd));
         double yo = yadd;
         
-        for (AABB aabb2 : boxes) {
-            xadd = aabb2.solveX(xadd, aabb);
+        for (TileInfo tile : tiles) {
+            xadd = tile.aabb.solveX(xadd, aabb);
         }
         aabb.move(xadd, 0);
         
-        for (AABB aabb2 : boxes) {
-            yadd = aabb2.solveY(yadd, aabb);
+        for (TileInfo tile : tiles) {
+            yadd = tile.aabb.solveY(yadd, aabb);
         }
         aabb.move(0, yadd);
         onground = (yo != yadd && yo > 0) ? true : false;
         x = aabb.minX;
         y = aabb.minY;
+        
         updateAABB();
+        for (TileInfo tile : tiles) {
+            if (tile.aabb.intersects(aabb)) {
+                tile.tile.collidingEntity(world, tile.x, tile.y, this);
+            }
+        }
     }
 }

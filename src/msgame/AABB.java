@@ -31,6 +31,14 @@ public class AABB {
         return new AABB(minX, minY, maxX, maxY);
     }
 
+    public boolean intersects(AABB bb) {
+        if (this.maxX < minX || this.maxY < minY)
+            return false;
+        if (this.minX > maxX || this.minY > maxY)
+            return false;
+        return true;
+    }
+
     public double solveX(double x, AABB bb) {
         if (bb.maxY <= this.minY || bb.minY >= this.maxY) {
             return x;
