@@ -78,11 +78,11 @@ public class Main implements Runnable {
             long delta = (now - lastTime);
             lastTime = now;
             unprocessed += delta / (1000.0 / TPS);
-
+            
             boolean ticked = false;
             while (unprocessed > 1) {
                 ticked = true;
-                tick();
+                if (gameCanvas.hasFocus()) tick();
                 unprocessed--;
             }
             if (ticked) {
@@ -110,8 +110,16 @@ public class Main implements Runnable {
             return;
         Graphics2D g2 = (Graphics2D) g;
         g2.scale(3, 3);
-
+        
         world.render(g);
+        
+        if (!gameCanvas.hasFocus()) {
+            g.setColor(Colors.black);
+            String str = "Click to get focus";
+            g.drawString(str, 
+                         WIDTH / 2 - (g.getFontMetrics().stringWidth(str)) / 2, 
+                         HEIGHT / 2 - (g.getFontMetrics().getHeight() / 2));
+        }
         
         g.setColor(new Color(0x000000));
         g.drawString("FPS: " + fpsNow, 10, 10);
