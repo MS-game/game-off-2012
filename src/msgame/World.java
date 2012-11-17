@@ -72,6 +72,8 @@ public class World {
                 if (pixel == 0xFFFFFF) {
                 } else if (pixel == 0xFF0000) {
                     tiles[x][y] = Tile.stone;
+                } else if (pixel == 0x00FF00) {
+                    spawn(new EntityBox(this, x*10, y*10));
                 } else if (pixel == 0xFF00FF) {
                     spawn(new EntityDoor(this, x*10, y*10));
                 } else if (pixel == 0x00FFFF) {
@@ -117,7 +119,11 @@ public class World {
             return null;
         return tiles[x][y];
     }
-
+    public void setTileAt(int x, int y, Tile tile) {
+        if (x < 0 || y < 0 || x >= tiles.length || y >= tiles[0].length)
+            return;
+        tiles[x][y] = tile;
+    }
     public List<TileInfo> getCollidingTiles(AABB aabb) {
         List<TileInfo> ret = new ArrayList<TileInfo>();
 

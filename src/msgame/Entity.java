@@ -41,15 +41,18 @@ public class Entity {
         List<TileInfo> tiles = world.getCollidingTiles(aabb.expand(xadd, yadd));
         double yo = yadd;
         
-        for (TileInfo tile : tiles) {
+        for (TileInfo tile : tiles)
             xadd = tile.aabb.solveX(xadd, aabb);
-        }
+        for (Entity entity : world.entities)
+            xadd = entity.aabb.solveX(xadd, aabb);
         aabb.move(xadd, 0);
         
-        for (TileInfo tile : tiles) {
+        for (TileInfo tile : tiles)
             yadd = tile.aabb.solveY(yadd, aabb);
-        }
+        for (Entity entity : world.entities)
+            yadd = entity.aabb.solveY(yadd, aabb);
         aabb.move(0, yadd);
+        
         onground = (yo != yadd && yo > 0) ? true : false;
         x = aabb.minX;
         y = aabb.minY;
