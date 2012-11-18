@@ -56,8 +56,8 @@ public class EntityPlayer extends Entity {
             carrying.move((x + carryingX - carrying.x),
                     (y + carryingY - carrying.y));
             if (inputHandler.isKeyPressed(KeyEvent.VK_X)) {
-                carrying.ty = -0.2;
-                carrying.tx = -1.5;
+                carrying.ty = -0.3;
+                carrying.tx = 1.5 * ((this.left) ? -1 : 1);
                 carrying = null;
             }
         }
