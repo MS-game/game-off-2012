@@ -49,9 +49,9 @@ public class EntityBox extends Entity {
                 && aabb.solveY(1, world.thePlayer.aabb) > 0) {
             if (world.thePlayer.aabb.minX < aabb.minX)
                 xspeed += 1;
-            if (world.thePlayer.aabb.maxX > aabb.maxX)
+            else if (world.thePlayer.aabb.maxX > aabb.maxX)
                 xspeed += -1;
-            if (tx == 0 && ty == 0 && world.thePlayer.carrying == null
+            else if (tx == 0 && ty == 0 && world.thePlayer.carrying == null
                     && world.thePlayer.aabb.minY >= (aabb.maxY)) {
                 world.thePlayer.carrying = this;
                 world.thePlayer.carryingX = x - world.thePlayer.x;
