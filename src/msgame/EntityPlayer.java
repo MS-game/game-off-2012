@@ -7,6 +7,8 @@ public class EntityPlayer extends Entity {
     public InputHandler inputHandler;
     public int animation;
     public boolean left, walking;
+    public EntityBox carrying;
+    public double carryingX, carryingY;
 
     public EntityPlayer(World world, double x, double y) {
         super(world);
@@ -48,6 +50,10 @@ public class EntityPlayer extends Entity {
         else if (xspeed < 0)
             this.left = true;
         move();
+        System.out.println(carrying);
+        if (carrying != null) {
+            carrying.move((x + carryingX - carrying.x), (y + carryingY - carrying.y));
+        }
     }
 
     public void render(Graphics g) {

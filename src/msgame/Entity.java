@@ -50,7 +50,8 @@ public class Entity {
         for (TileInfo tile : tiles)
             yadd = tile.aabb.solveY(yadd, aabb);
         for (Entity entity : world.entities)
-            yadd = entity.aabb.solveY(yadd, aabb);
+            if (entity != this && ((this instanceof EntityPlayer) && ((EntityPlayer)this).carrying != entity))
+                yadd = entity.aabb.solveY(yadd, aabb);
         aabb.move(0, yadd);
         
         onground = (yo != yadd && yo > 0) ? true : false;
