@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 public class EntityBox extends Entity {
     public TileInfo antiGravity;
+    public double ty, tx;
 
     public EntityBox(World world, double x, double y) {
         super(world);
@@ -14,6 +15,21 @@ public class EntityBox extends Entity {
     }
 
     public void tick() {
+        xspeed = 0;
+        if (ty != 0) {
+            yspeed += ty;
+            if (Math.abs(ty) < 0.05)
+                ty = 0;
+            else
+                ty -= 0.05 * Math.signum(ty);
+        }
+        if (tx != 0) {
+            xspeed += tx;
+            if (Math.abs(tx) < 0.05)
+                tx = 0; // Stupid floating point errors :(
+            else
+                tx -= 0.05 * Math.signum(tx);
+        }
         if (world.thePlayer.carrying != this) {
             yspeed += 0.05;
             if (antiGravity != null) {
@@ -25,20 +41,25 @@ public class EntityBox extends Entity {
                         yspeed = -1;
                 }
             }
+        } else {
+            ty = tx = 0;
         }
-        xspeed = 0;
         if (world.thePlayer.carrying != this
                 && world.thePlayer.aabb.intersects(aabb)
                 && aabb.solveY(1, world.thePlayer.aabb) > 0) {
-            if (world.thePlayer.aabb.minX < aabb.minX) xspeed = 1;
-            if (world.thePlayer.aabb.maxX > aabb.maxX) xspeed = -1;
-            if (world.thePlayer.carrying == null && world.thePlayer.aabb.minY >= (aabb.maxY)) {
+            if (world.thePlayer.aabb.minX < aabb.minX)
+                xspeed += 1;
+            if (world.thePlayer.aabb.maxX > aabb.maxX)
+                xspeed += -1;
+            if (tx == 0 && ty == 0 && world.thePlayer.carrying == null
+                    && world.thePlayer.aabb.minY >= (aabb.maxY)) {
                 world.thePlayer.carrying = this;
                 world.thePlayer.carryingX = x - world.thePlayer.x;
                 world.thePlayer.carryingY = y - world.thePlayer.y;
                 xspeed = 0;
             }
-        } else if (world.thePlayer.carrying == this && (world.thePlayer.aabb.minY < (aabb.maxY))) {
+        } else if (world.thePlayer.carrying == this
+                && (world.thePlayer.aabb.minY < (aabb.maxY))) {
             world.thePlayer.carrying = null;
         }
         move();

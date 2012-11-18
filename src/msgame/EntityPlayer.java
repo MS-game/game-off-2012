@@ -23,8 +23,9 @@ public class EntityPlayer extends Entity {
     }
 
     public void tick() {
-        if (animation++ >= 39) animation = 0;
-        
+        if (animation++ >= 39)
+            animation = 0;
+
         boolean jump = inputHandler.isKeyDown(KeyEvent.VK_UP)
                 || inputHandler.isKeyDown(KeyEvent.VK_W)
                 || inputHandler.isKeyDown(KeyEvent.VK_SPACE);
@@ -50,20 +51,24 @@ public class EntityPlayer extends Entity {
         else if (xspeed < 0)
             this.left = true;
         move();
-        System.out.println(carrying);
+
         if (carrying != null) {
-            carrying.move((x + carryingX - carrying.x), (y + carryingY - carrying.y));
+            carrying.move((x + carryingX - carrying.x),
+                    (y + carryingY - carrying.y));
+            if (inputHandler.isKeyPressed(KeyEvent.VK_X)) {
+                carrying.ty = -0.2;
+                carrying.tx = -1.5;
+                carrying = null;
+            }
         }
     }
 
     public void render(Graphics g) {
         int sid = 10 + (int) Math.floor((animation / 20));
-        if (walking) sid++;
-        g.drawImage(world.spriteholder.getSprite(
-                sid),
-                (int) x, (int) y,
-                (int) (x + width), (int) (y + 10), 
-                (left) ? (int)width : 0, 0,
-                (left) ? 0 : (int)width, 10, null);
+        if (walking)
+            sid++;
+        g.drawImage(world.spriteholder.getSprite(sid), (int) x, (int) y,
+                (int) (x + width), (int) (y + 10), (left) ? (int) width : 0, 0,
+                (left) ? 0 : (int) width, 10, null);
     }
 }
