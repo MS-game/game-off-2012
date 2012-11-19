@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JFrame;
 
@@ -22,7 +23,8 @@ public class Main implements Runnable {
     public int fpsNow;
     public GameCanvas gameCanvas;
     public static JFrame frame;
-
+    
+    public HintText hintText;
     public InputHandler inputHandler;
     public World world;
 
@@ -63,6 +65,7 @@ public class Main implements Runnable {
     }
 
     public void initScene() {
+        hintText = new HintText(this);
         inputHandler = new InputHandler(this);
         world = new World(this);
     }
@@ -109,19 +112,22 @@ public class Main implements Runnable {
         if (g == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
-        g2.scale(3, 3);
-        
+        g2.scale(SCALE, SCALE);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         world.render(g);
         
         if (!gameCanvas.hasFocus()) {
             g.setColor(Colors.black);
+            g.setFont(Fonts.clickToFocus);
             String str = "Click to get focus";
             g.drawString(str, 
                          WIDTH / 2 - (g.getFontMetrics().stringWidth(str)) / 2, 
                          HEIGHT / 2 - (g.getFontMetrics().getHeight() / 2));
         }
-        
+        hintText.render(g);
         g.setColor(new Color(0x000000));
+        g.setFont(Fonts.fpsCounter);
         g.drawString("FPS: " + fpsNow, 10, 10);
     }
 

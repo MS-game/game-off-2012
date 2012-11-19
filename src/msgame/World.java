@@ -45,6 +45,7 @@ public class World {
     }
 
     public void tick() {
+        if (inputHandler.isKeyPressed(KeyEvent.VK_R)) loadLevel(currentLevel);
         if (inputHandler.isKeyPressed(KeyEvent.VK_N)) nextLevel();
         
         for (Entity entity : entities) {

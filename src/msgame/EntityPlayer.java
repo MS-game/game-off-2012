@@ -56,13 +56,13 @@ public class EntityPlayer extends Entity {
         if (carrying != null) {
             carrying.move((x + carryingX - carrying.x),
                     (y + carryingY - carrying.y));
-            if (inputHandler.isKeyPressed(KeyEvent.VK_X)) {
+            if (inputHandler.isKeyPressed(KeyEvent.VK_X) || inputHandler.isKeyPressed(KeyEvent.VK_E)) {
                 carrying.ty = -0.3;
                 carrying.tx = 1.5 * ((this.left) ? -1 : 1);
                 carrying = null;
             }
         }
-        pulling = inputHandler.isKeyDown(KeyEvent.VK_CONTROL);
+        pulling = inputHandler.isKeyDown(KeyEvent.VK_CONTROL) || inputHandler.isKeyDown(KeyEvent.VK_SHIFT);
         if (pulling) {
             for (Entity entity : world.entities) {
                 if (entity instanceof EntityBox && entity.aabb.distanceX(aabb) <= 2 && entity.aabb.maxY == aabb.maxY) {

@@ -13,7 +13,7 @@ public class TileAntiGravity extends Tile {
             box.antiGravity.y = y;
             box.antiGravity.aabb = new AABB(x*10, y*10, (x+1)*10, (y+1)*10);
         }
-        if (entity instanceof EntityPlayer) {
+        if (world.currentLevel > 4 && entity instanceof EntityPlayer) {
             for (Entity entity2 : world.entities) {
                 if ((entity2 instanceof EntityBox)) {
                     EntityBox box = (EntityBox)entity2;
