@@ -65,7 +65,7 @@ public class EntityPlayer extends Entity {
         pulling = inputHandler.isKeyDown(KeyEvent.VK_CONTROL);
         if (pulling) {
             for (Entity entity : world.entities) {
-                if (entity instanceof EntityBox && entity.aabb.distanceX(aabb) <= 2 && entity.aabb.distanceY(aabb) <= 0) {
+                if (entity instanceof EntityBox && entity.aabb.distanceX(aabb) <= 2 && entity.aabb.maxY == aabb.maxY) {
                     entity.move(xspeed, 0);
                 }
             }
