@@ -8,7 +8,7 @@ public class GameApplet extends Applet {
     private Main main = new Main(false);
 
     public void init() {
-        setSize(Main.WIDTH, Main.HEIGHT);
+        setSize(Main.WIDTH*Main.SCALE, Main.HEIGHT*Main.SCALE);
         setLayout(new BorderLayout());
         add(main.gameCanvas, BorderLayout.CENTER);
     }
