@@ -62,7 +62,9 @@ public class EntityBox extends Entity {
                 && (world.thePlayer.aabb.minY < (aabb.maxY))) {
             world.thePlayer.carrying = null;
         }
-        move();
+        if (!world.thePlayer.pulling) {
+            move();
+        }
         if (onground)
             yspeed = 0;
     }

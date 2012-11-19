@@ -76,4 +76,29 @@ public class AABB {
         }
         return y;
     }
+    
+    public double distanceX(AABB bb) {
+        // Rechts
+        if (bb.maxX < minX) {
+            return minX - bb.maxX;
+        }
+        // Links
+        if (bb.minX > maxX) {
+            return bb.minX - maxX;
+        }
+        return 0;
+    }
+    
+    public double distanceY(AABB bb) {
+        // Recht
+        if (bb.maxY < minY) {
+            return minY - bb.maxY;
+        }
+        // Left
+        if (bb.minY > maxY) {
+            return bb.minY - maxY;
+        }
+        return 0;
+    }
+    
 }

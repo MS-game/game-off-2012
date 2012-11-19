@@ -9,6 +9,7 @@ public class EntityPlayer extends Entity {
     public boolean left, walking;
     public EntityBox carrying;
     public double carryingX, carryingY;
+    public boolean pulling;
 
     public EntityPlayer(World world, double x, double y) {
         super(world);
@@ -59,6 +60,14 @@ public class EntityPlayer extends Entity {
                 carrying.ty = -0.3;
                 carrying.tx = 1.5 * ((this.left) ? -1 : 1);
                 carrying = null;
+            }
+        }
+        pulling = inputHandler.isKeyDown(KeyEvent.VK_CONTROL);
+        if (pulling) {
+            for (Entity entity : world.entities) {
+                if (entity instanceof EntityBox && entity.aabb.distanceX(aabb) <= 2 && entity.aabb.distanceY(aabb) <= 0) {
+                    entity.move(xspeed, 0);
+                }
             }
         }
     }
