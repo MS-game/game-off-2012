@@ -25,7 +25,7 @@ public class Tile {
     static {
         air = new Tile(0).setTextureId(0).setPassable(true);
         stone = new Tile(1).setTextureId(1);
-        antiGravity = new TileAntiGravity(2).setTextureId(5);
+        antiGravity = new TileAntiGravity(2).setTextureId(4);
     }
 
     public void collidingEntity(World world, int x, int y, Entity entity) {
