@@ -45,12 +45,15 @@ public class World {
     }
 
     public void tick() {
-        if (inputHandler.isKeyPressed(KeyEvent.VK_R)) loadLevel(currentLevel);
+        if (inputHandler.isKeyPressed(KeyEvent.VK_R)) restartLevel();
         if (inputHandler.isKeyPressed(KeyEvent.VK_N)) nextLevel();
         
         for (Entity entity : entities) {
             entity.tick();
         }
+    }
+    public void restartLevel () {
+        loadLevel(currentLevel);
     }
     public void nextLevel () {
         loadLevel(++currentLevel);
@@ -77,6 +80,8 @@ public class World {
                     tiles[x][y] = Tile.stone;
                 } else if (pixel == 0xFFFF00) {
                     tiles[x][y] = Tile.antiGravity;
+                } else if (pixel == 0x0000FF) {
+                    tiles[x][y] = Tile.spikes;
                 } else if (pixel == 0x00FF00) {
                     spawn(new EntityBox(this, x*10, y*10));
                 } else if (pixel == 0xFF00FF) {
