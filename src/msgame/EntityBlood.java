@@ -1,9 +1,11 @@
 package msgame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class EntityBlood extends Entity {
     public int live;
+    public Color color;
 
     public EntityBlood(World world, Entity entity) {
         super(world);
@@ -18,6 +20,7 @@ public class EntityBlood extends Entity {
 
         width = world.random.nextInt(5) + 1;
         height = world.random.nextInt(5) + 1;
+        color = Colors.blood[world.random.nextInt(5)];
         updateAABB();
     }
 
@@ -32,7 +35,7 @@ public class EntityBlood extends Entity {
     }
 
     public void render(Graphics g) {
-        g.setColor(Colors.red);
+        g.setColor(color);
         g.fillRect((int) x, (int) y, (int) width, (int) height);
     }
 }

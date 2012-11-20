@@ -10,4 +10,11 @@ public class Colors {
     public static final Color green = new Color(0x0000FF);
     public static final Color blue = new Color(0x0000FF);
     public static final Color darkBlue = new Color(0x0000AA);
+    public static final Color[] blood = new Color[]{
+        Colors.red,
+        Colors.red.darker(),
+        Colors.red.brighter(),
+        Colors.red.darker().darker(),
+        Colors.red.darker().darker().darker(),
+    };
 }
