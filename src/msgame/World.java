@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -16,10 +17,12 @@ public class World {
     public EntityPlayer thePlayer;
     public InputHandler inputHandler;
     public SpriteHolder spriteholder;
+    public Random random;
     public int currentLevel;
 
     public World(Main main) {
         this.main = main;
+        random = new Random();
         tiles = new Tile[24][18];
         inputHandler = main.inputHandler;
         spriteholder = new SpriteHolder("res/sprites.png", 10);        
@@ -48,8 +51,10 @@ public class World {
         if (inputHandler.isKeyPressed(KeyEvent.VK_R)) restartLevel();
         if (inputHandler.isKeyPressed(KeyEvent.VK_N)) nextLevel();
         
-        for (Entity entity : entities) {
+        for (int i = entities.size() - 1; i >= 0; i--) {
+            Entity entity = entities.get(i);
             entity.tick();
+            if (entity.dead) entities.remove(entity);
         }
     }
     public void restartLevel () {
@@ -63,7 +68,12 @@ public class World {
         spawn(thePlayer);
     }
     public void loadLevel(int l) {
+        List<Entity> oldentities = entities;
         entities = new ArrayList<Entity>();
+        if (oldentities != null)
+            for (Entity entity : oldentities)
+                if (entity.keep)
+                    spawn(entity);
         try {
             BufferedImage image = ImageIO.read(World.class
                     .getResourceAsStream("/res/level" + l + ".png"));

@@ -7,7 +7,10 @@ public class Entity {
     public double x, y;
     public double width, height;
     public double xspeed, yspeed;
+    public boolean keep = false;
     public boolean onground = true;
+    public boolean colliding = true;
+    public boolean dead = false;
     public AABB aabb;
     public World world;
 
@@ -36,7 +39,6 @@ public class Entity {
 
     public void render(Graphics g) {
     }
-
     public void move(double xadd, double yadd) {
         List<TileInfo> tiles = world.getCollidingTiles(aabb.expand(xadd, yadd));
         double yo = yadd;
@@ -50,7 +52,7 @@ public class Entity {
         for (TileInfo tile : tiles)
             yadd = tile.aabb.solveY(yadd, aabb);
         for (Entity entity : world.entities) {
-            if (entity != this && ((this instanceof EntityPlayer) && ((EntityPlayer)this).carrying != entity)) {
+            if (entity != this && !colliding && !entity.colliding && ((this instanceof EntityPlayer) && ((EntityPlayer)this).carrying != entity)) {
                 yadd = entity.aabb.solveY(yadd, aabb);
             }
         }
