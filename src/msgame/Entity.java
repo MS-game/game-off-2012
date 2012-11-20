@@ -45,14 +45,17 @@ public class Entity {
         
         for (TileInfo tile : tiles)
             xadd = tile.aabb.solveX(xadd, aabb);
-        for (Entity entity : world.entities)
-            xadd = entity.aabb.solveX(xadd, aabb);
+        for (Entity entity : world.entities) {
+            if (entity != this && colliding && entity.colliding && ((this instanceof EntityPlayer) && ((EntityPlayer)this).carrying != entity)) {
+                xadd = entity.aabb.solveX(xadd, aabb);
+            }
+        }
         aabb.move(xadd, 0);
         
         for (TileInfo tile : tiles)
             yadd = tile.aabb.solveY(yadd, aabb);
         for (Entity entity : world.entities) {
-            if (entity != this && !colliding && !entity.colliding && ((this instanceof EntityPlayer) && ((EntityPlayer)this).carrying != entity)) {
+            if (entity != this && colliding && entity.colliding && ((this instanceof EntityPlayer) && ((EntityPlayer)this).carrying != entity)) {
                 yadd = entity.aabb.solveY(yadd, aabb);
             }
         }
